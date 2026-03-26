@@ -11,6 +11,7 @@ namespace DrLib
 				typedef void MapLoadFunc(unsigned int);
 				inline extern  MapLoadFunc* Load = (MapLoadFunc*)(baseAddr + 0x5b1e0);
 			}
+
 			namespace Audio
 			{
 				typedef void PlaySongFunc(unsigned int, int);
@@ -20,11 +21,21 @@ namespace DrLib
 					PlaySong(track, volume);
 				}
 			}
+
 			namespace Character
 			{
 				typedef void LoadStandFunc(unsigned int, int);
 				inline extern LoadStandFunc* LoadStand = (LoadStandFunc*)(baseAddr + 0x615d0);
 
+			}
+
+			namespace Debug
+			{
+				typedef void LogFunc(char* fmt, ...);
+				inline LogFunc* Log = (LogFunc*)(baseAddr + 0x158c40);
+
+				typedef void DrawTextFunc(...);
+				inline DrawTextFunc* DrawDebugText = (DrawTextFunc*)(baseAddr + 0x931b3);
 			}
 		}
 	}
