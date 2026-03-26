@@ -32,6 +32,19 @@ namespace DrLib
 				inline DrawText Draw = (DrawText)(baseAddr + 0x154310);
 
 
+				typedef void DrawTextFunc(...);
+				inline DrawTextFunc* DrawDebugText = (DrawTextFunc*)(baseAddr + 0x931b3);
+			}
+				inline void PrintString(int layer, int x, int y, const wchar_t* str, int color)
+				{
+					int currentX = x;
+					for (int i = 0; i < wcslen(str); i++)
+					{
+						int width = Draw(layer, currentX, y, (short)str[i], color);
+						currentX += width; 
+					}
+				}
+			}
 				inline void PrintString(int layer, int x, int y, const wchar_t* str, int color)
 				{
 					int currentX = x;
