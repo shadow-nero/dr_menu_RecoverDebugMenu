@@ -11,6 +11,7 @@ namespace DrLib
 				typedef void MapLoadFunc(unsigned int);
 				inline extern  MapLoadFunc* Load = (MapLoadFunc*)(baseAddr + 0x5b1e0);
 			}
+
 			namespace Audio
 			{
 				typedef void PlaySongFunc(unsigned int, int);
@@ -22,9 +23,24 @@ namespace DrLib
 			}
 			namespace Character
 			{
-				typedef void LoadStandFunc(unsigned int, int);
+				typedef void LoadStandFunc(unsigned int chara, int emote);
 				inline extern LoadStandFunc* LoadStand = (LoadStandFunc*)(baseAddr + 0x615d0);
 
+
+				typedef void SpawnCharFunc(unsigned int chara, char roomPos);
+				inline SpawnCharFunc* SpawnChar = (SpawnCharFunc*)(baseAddr + 0x61180);
+
+
+				typedef void CreateCharFunc(unsigned int chara);
+				inline CreateCharFunc* CreateChar = (CreateCharFunc*)(baseAddr + 0x5f030);
+			}
+			namespace Debug
+			{
+				typedef void LogFunc(char* fmt, ...);
+				inline LogFunc* Log = (LogFunc*)(baseAddr + 0x158c40);
+
+				typedef void DrawTextFunc(...);
+				inline DrawTextFunc* DrawDebugText = (DrawTextFunc*)(baseAddr + 0x931b3);
 			}
 			namespace TextRender
 			{
@@ -32,26 +48,13 @@ namespace DrLib
 				inline DrawText Draw = (DrawText)(baseAddr + 0x154310);
 
 
-				typedef void DrawTextFunc(...);
-				inline DrawTextFunc* DrawDebugText = (DrawTextFunc*)(baseAddr + 0x931b3);
-			}
 				inline void PrintString(int layer, int x, int y, const wchar_t* str, int color)
 				{
 					int currentX = x;
 					for (int i = 0; i < wcslen(str); i++)
 					{
 						int width = Draw(layer, currentX, y, (short)str[i], color);
-						currentX += width; 
-					}
-				}
-			}
-				inline void PrintString(int layer, int x, int y, const wchar_t* str, int color)
-				{
-					int currentX = x;
-					for (int i = 0; i < wcslen(str); i++)
-					{
-						int width = Draw(layer, currentX, y, (short)str[i], color);
-						currentX += width; 
+						currentX += width;
 					}
 				}
 			}
